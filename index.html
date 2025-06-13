@@ -6,41 +6,86 @@
   <title>Rééducation Motrice VR Gamifié</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
-      color: #327c7a;
+      background: #f7f7f7;
+      color: #444;
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
     .main-header {
       margin-bottom: 0;
+      position: relative;
+    }
+    .cedric-banner {
+      position: relative;
+      background: #b81c2c;
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .cedric-banner h1 {
+      color: #fff;
+      font-size: 2.3em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      z-index: 2;
+      text-align: center;
+      margin: 0;
+      padding: 30px 0 20px 0;
+      line-height: 1.1;
+      text-shadow: 0 2px 8px #a00, 0 0 1px #fff;
+    }
+    .cedric-banner .squares {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0; top: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cedric-banner .squares span {
+      position: absolute;
+      background: rgba(255,255,255,0.7);
+      border-radius: 2px;
+      opacity: 0.7;
+      animation: float 10s linear infinite;
+    }
+    .cedric-banner .squares span:nth-child(1) {
+      width: 38px; height: 38px; left: 10%; top: 30px; animation-delay: 0s;
+    }
+    .cedric-banner .squares span:nth-child(2) {
+      width: 18px; height: 18px; left: 30%; top: 80px; animation-delay: 2s;
+    }
+    .cedric-banner .squares span:nth-child(3) {
+      width: 28px; height: 28px; left: 55%; top: 20px; animation-delay: 4s;
+    }
+    .cedric-banner .squares span:nth-child(4) {
+      width: 14px; height: 14px; left: 70%; top: 60px; animation-delay: 1s;
+    }
+    .cedric-banner .squares span:nth-child(5) {
+      width: 22px; height: 22px; left: 85%; top: 40px; animation-delay: 3s;
+    }
+    @keyframes float {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(25px);}
     }
     .main-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      background: #327c7a;
+      background: #bdbdbd;
       color: #fff;
       z-index: 1000;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 1em;
+      justify-content: center;
+      padding: 0;
       box-sizing: border-box;
-      height: 56px;
-    }
-    .main-nav .nav-logo {
-      font-weight: bold;
-      font-size: 1.1em;
-      letter-spacing: 1px;
-    }
-    .burger-container {
-      position: relative;
-      display: flex;
-      align-items: center;
+      height: 48px;
+      position: sticky;
+      top: 0;
     }
     .main-nav ul {
       list-style: none;
@@ -53,67 +98,71 @@
     }
     .main-nav a {
       display: block;
-      color: #fff;
+      color: #444;
       text-decoration: none;
-      font-weight: bold;
-      padding: 1em 1.2em;
-      border-radius: 4px;
-      transition: background 0.2s;
+      font-weight: 600;
+      padding: 0.8em 1.3em;
+      border-radius: 0;
+      transition: background 0.2s, color 0.2s;
+      font-size: 1.05em;
     }
     .main-nav a:hover,
     .main-nav a:focus {
-      background: #245c5a;
+      background: #fff;
+      color: #b81c2c;
     }
-    /* Burger Icon */
     .main-nav .burger {
       display: none;
-      flex-direction: column;
-      justify-content: center;
-      height: 40px;
-      width: 40px;
-      cursor: pointer;
-      margin-left: 1em;
-      background: none;
-      border: none;
-      z-index: 2001;
-    }
-    .main-nav .burger span {
-      height: 4px;
-      width: 28px;
-      background: #fff;
-      margin: 4px 0;
-      border-radius: 2px;
-      transition: 0.3s;
-      display: block;
     }
     @media (max-width: 900px) {
       .main-nav ul {
         position: absolute;
-        top: 56px;
+        top: 48px;
         right: 0;
-        background: #327c7a;
+        background: #bdbdbd;
         flex-direction: column;
-        width: 220px;
+        width: 200px;
         display: none;
         box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
         z-index: 1001;
       }
+      .main-nav ul.active {
+        display: flex;
+      }
       .main-nav .burger {
         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 40px;
+        width: 40px;
+        cursor: pointer;
+        margin-left: 1em;
+        background: none;
+        border: none;
+        z-index: 2001;
       }
-      .burger-container:hover ul,
-      .burger-container:focus-within ul {
-        display: flex;
+      .main-nav .burger span {
+        height: 4px;
+        width: 28px;
+        background: #b81c2c;
+        margin: 4px 0;
+        border-radius: 2px;
+        transition: 0.3s;
+        display: block;
       }
-      .burger-container {
-        position: relative;
-        display: flex;
-        align-items: center;
+      .main-nav .burger.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .main-nav .burger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .main-nav .burger.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
       }
     }
     .container {
       max-width: 1200px;
-      margin: 76px auto 20px auto; /* 76px pour laisser la place à la nav */
+      margin: 40px auto 20px auto;
       padding: 0 20px;
     }
     section {
@@ -121,115 +170,132 @@
       margin-bottom: 20px;
       padding: 40px 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
       min-height: 60vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       position: relative;
     }
     h2 {
-      color: #d55e03;
+      color: #b81c2c;
       border-bottom: 2px solid #eee;
       padding-bottom: 10px;
       margin-bottom: 20px;
+      font-size: 2em;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
-    /* Accueil : titre centré, texte en bas à gauche */
-    #acceuil h2 {
+    #accueil h2 {
       text-align: center;
-      font-size: 2.8em;
-      margin: 0 0 1em 0;
-    }
-    #acceuil p {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      max-width: 450px;
-      font-size: 1.1em;
-      color: #327c7a;
+      font-size: 2.2em;
       margin: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+      transition: font-size 0.3s ease;
     }
-    /* Présentation : texte bas gauche, vidéo haut droite */
-    #présentation {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      min-height: 400px;
-      position: relative;
-    }
-    #présentation p {
-      max-width: 480px;
+    #accueil p {
       font-size: 1.1em;
-      color: #327c7a;
-      align-self: flex-end;
-      margin-bottom: 0;
+      color: #444;
+      margin: 0;
+      line-height: 1.6;
+      text-align: center;
+      background: #fff;
+      border-left: 4px solid #b81c2c;
+      padding: 15px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 20px;
     }
-    #présentation iframe {
-      max-width: 560px;
-      width: 100%;
-      height: 315px;
-      align-self: flex-start;
-      border: none;
-    }
-    /* Mage Motion : texte à gauche, image à droite */
-    #magemotion {
+    .stats-row {
       display: flex;
+      gap: 32px;
+      margin: 30px 0 0 0;
       flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      min-height: 400px;
     }
-    #magemotion .texte {
-      flex: 1 1 340px;
-      max-width: 580px;
-      font-size: 1.1em;
-      white-space: pre-line;
-    }
-    #magemotion .image {
-      flex: 1 1 280px;
-      max-width: 380px;
-      margin-left: 40px;
-    }
-    #magemotion .image img {
-      max-width: 100%;
+    .stats-block {
+      flex: 1 1 180px;
+      background: #f7f7f7;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      padding: 18px 0 10px 0;
+      margin: 0 0 12px 0;
     }
-    /* Équipe */
-    #Equipe h2 {
-      margin-bottom: 1em;
+    .stats-block .stat-number {
+      font-size: 2.5em;
+      color: #b81c2c;
+      font-weight: bold;
+      line-height: 1;
     }
-    #Equipe .equipe-list {
+    .stats-block .stat-label {
+      color: #888;
+      font-size: 1.1em;
+      letter-spacing: 1px;
+    }
+    .equipe-capsules {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
-      font-size: 1.15em;
+      gap: 18px;
+      margin-top: 16px;
     }
-    #Equipe .equipe-list span {
-      background: #327c7a;
+    .equipe-capsule {
+      background: #fff;
+      border: 2px solid #b81c2c;
+      border-radius: 32px;
+      padding: 12px 28px;
+      font-size: 1.1em;
+      color: #b81c2c;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(184,28,44,0.07);
+      transition: background 0.2s, color 0.2s;
+      margin-bottom: 8px;
+      white-space: nowrap;
+    }
+    .equipe-capsule:hover {
+      background: #b81c2c;
       color: #fff;
-      padding: 8px 18px;
-      border-radius: 20px;
-      margin-right: 8px;
     }
-    /* Contact */
     #contact form {
       max-width: 400px;
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
-    #contact input,
-    #contact textarea {
+    #contact form label {
+      font-weight: 600;
+      color: #b81c2c;
+      margin-bottom: 4px;
+      margin-top: 8px;
+    }
+    #contact form input:focus,
+    #contact form textarea:focus,
+    #contact form select:focus {
+      outline: 2px solid #b81c2c;
+      border-color: #b81c2c;
+      background: #fffbe6;
+    }
+    #contact form input[required],
+    #contact form textarea[required],
+    #contact form select[required] {
+      border-left: 4px solid #b81c2c;
+    }
+    #contact form span[aria-hidden="true"] {
+      color: #b81c2c;
+      font-size: 1.1em;
+      margin-left: 2px;
+    }
+    #contact form input,
+    #contact form textarea,
+    #contact form select {
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 1em;
       resize: vertical;
+      background-color: #fff;
+      color: #444;
     }
     #contact button {
-      background: #327c7a;
+      background: #b81c2c;
       color: #fff;
       border: none;
       border-radius: 6px;
@@ -239,22 +305,27 @@
       transition: background 0.2s;
     }
     #contact button:hover {
-      background: #245c5a;
+      background: #a00;
     }
-    /* Footer */
+    #form-message {
+      font-size: 1.1em;
+      margin-top: 12px;
+      color: green;
+      display: none;
+    }
     footer {
-      background-color: #327c7a;
+      background-color: #b81c2c;
       color: #fff;
       text-align: center;
       padding: 1em 0;
       margin-top: 20px;
+      font-size: 1.1em;
     }
-    /* Bouton flottant */
     .next-btn {
       position: fixed;
       bottom: 32px;
       right: 32px;
-      background: #327c7a;
+      background: #b81c2c;
       color: #fff;
       border: none;
       border-radius: 50%;
@@ -262,7 +333,7 @@
       height: 56px;
       font-size: 2em;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(50, 124, 122, 0.2);
+      box-shadow: 0 2px 8px rgba(184, 28, 44, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -270,10 +341,14 @@
       transition: background 0.2s;
     }
     .next-btn:hover {
-      background: #245c5a;
+      background: #a00;
     }
     @media (max-width: 900px) {
-      #présentation {
+      .stats-row {
+        flex-direction: column;
+        gap: 8px;
+      }
+      #présentation .content-wrapper {
         flex-direction: column-reverse;
         align-items: flex-start;
       }
@@ -290,45 +365,66 @@
         margin-top: 20px;
         max-width: 100%;
       }
+      .equipe-capsules {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <header class="main-header">
-    <nav class="main-nav">
-      <div class="nav-logo">Laboratoire Cédric</div>
-      <div class="burger-container">
-        <button class="burger" aria-label="Ouvrir le menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <ul>
-          <li><a href="#acceuil">Acceuil</a></li>
-          <li><a href="#présentation">Projet</a></li>
-          <li><a href="#magemotion">Mage Motion</a></li>
-          <li><a href="#Equipe">Equipe</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+    <div class="cedric-banner">
+      <h1>Centre d’études et de recherche<br>en informatique et communications</h1>
+      <div class="squares">
+        <span></span><span></span><span></span><span></span><span></span>
       </div>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#présentation">Projet</a></li>
+        <li><a href="#magemotion">Mage Motion</a></li>
+        <li><a href="#Equipe">Equipe</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="burger" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </nav>
   </header>
 
   <div class="container">
-    <section id="acceuil">
-      <h2>MageMotion: Virtual Rehabilitation Quest</h2>
+    <section id="accueil">
+      <h2>VR-Rehab</h2>
       <p>
-        Conçu dans l'optique de concevoir une application de rééducation motrice
-        fonctionnelle ludique, « MageMotion: Virtual Rehabilitation Quest » s'appuie
-        sur les principes de la thérapie miroir. Le jeu cible notamment les enfants
-        atteints d'hémiparésie infantile, pour qui la rééducation peut être perçue
-        comme une tâche ardue.
+        Conçu pour la rééducation motrice des enfants atteints d’hémiplégie infantile, MageMotion s’appuie sur la thérapie miroir et la gamification pour rendre la rééducation plus motivante.
       </p>
+      <div class="stats-row">
+        <div class="stats-block">
+          <div class="stat-number">+50%</div>
+          <div class="stat-label">DES ENFANTS VICTIMES D’UN AVC GARDENT DES SÉQUELLES MOTRICES</div>
+        </div>
+        <div class="stats-block">
+          <div class="stat-number">4</div>
+          <div class="stat-label">NOUVEAUX CAS PAR JOUR EN FRANCE</div>
+        </div>
+        <div class="stats-block">
+          <div class="stat-number">3/1000</div>
+          <div class="stat-label">ENFANTS TOUCHÉS PAR LA PARALYSIE CÉRÉBRALE</div>
+        </div>
+        <div class="stats-block">
+          <div class="stat-number">30%</div>
+          <div class="stat-label">DES PARALYSIES CÉRÉBRALES DE L’ENFANT SONT DES HÉMIPLÉGIES</div>
+        </div>
+      </div>
     </section>
 
     <section id="présentation">
       <h2>Projet</h2>
-      <div>
+      <div class="content-wrapper">
         <p>
           L’objectif principal est ainsi de créer une expérience où les patients peuvent
           s'entraîner avec des exercices thérapeutiques traditionnels tout en intégrant
@@ -356,8 +452,8 @@
       <div class="texte">
         <strong>1. Introduction</strong><br />
         MageMotion: Virtual Rehabilitation Quest est un jeu de rééducation motrice conçu
-        pour aider les enfants atteints d'hémiparésie infantile. En utilisant les
-        principes de la thérapie miroir et la réalité virtuelle, ce jeu rend la
+        pour aider les enfants atteints d'hémiplégie infantile. En utilisant les
+        principaux de la thérapie miroir et la réalité virtuelle, ce jeu rend la
         rééducation plus engageante et efficace en immergeant les patients dans un
         environnement ludique et interactif.<br /><br />
         <strong>2. Concept et description du jeu</strong><br />
@@ -376,23 +472,43 @@
 
     <section id="Equipe">
       <h2>Equipe</h2>
-      <div class="equipe-list">
-        <span>Verhulst Eulalie</span>
-        <span>Pons Olivier</span>
-        <span>Youssouf Niakate</span>
-        <span>Lucie Deplaude</span>
-        <span>Siméon Ornato</span>
-        <span>Raphael Vonsen</span>
+      <div class="equipe-capsules">
+        <div class="equipe-capsule">Verhulst Eulalie</div>
+        <div class="equipe-capsule">Pons Olivier</div>
+        <div class="equipe-capsule">Niakate Youssouf</div>
+        <div class="equipe-capsule">Deplaude Lucie</div>
+        <div class="equipe-capsule">Ornato Siméon</div>
+        <div class="equipe-capsule">Vonsen Raphaël</div>
+        <div class="equipe-capsule">Roig Thomas</div>
+        <div class="equipe-capsule">Hu Tony</div>
       </div>
     </section>
 
     <section id="contact">
       <h2>Contact</h2>
-      <form>
-        <input type="text" name="nom" placeholder="Votre nom" required />
-        <input type="email" name="email" placeholder="Votre email" required />
-        <textarea name="message" rows="5" placeholder="Votre message..." required></textarea>
+      <form id="contactForm" autocomplete="on" novalidate>
+        <label for="nom">Nom <span aria-hidden="true">*</span></label>
+        <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
+
+        <label for="email">Email <span aria-hidden="true">*</span></label>
+        <input type="email" id="email" name="email" placeholder="Votre email" required />
+
+        <label for="objet">Objet <span aria-hidden="true">*</span></label>
+        <select id="objet" name="objet" required>
+          <option value="" disabled selected>Sélectionnez un objet</option>
+          <option value="Demande d'informations">Demande d'informations</option>
+          <option value="Partenariat">Partenariat</option>
+          <option value="Support technique">Support technique</option>
+          <option value="Proposition de stage">Proposition de stage</option>
+          <option value="Demande de collaboration">Demande de collaboration</option>
+          <option value="Autre">Autre</option>
+        </select>
+
+        <label for="message">Message <span aria-hidden="true">*</span></label>
+        <textarea id="message" name="message" rows="5" placeholder="Votre message..." required></textarea>
+
         <button type="submit">Envoyer</button>
+        <div id="form-message"></div>
       </form>
     </section>
   </div>
@@ -400,69 +516,111 @@
   <button class="next-btn" aria-label="Section suivante">↓</button>
 
   <footer>
-    <p>&copy; 2025 . All rights reserved.</p>
+    <p>© 2025 . All rights reserved.</p>
   </footer>
 
   <script>
-    // Plus besoin de JS pour le menu burger au survol !
-
-    // Scroll section par section
-    const sections = Array.from(document.querySelectorAll("section"));
-    const nextBtn = document.querySelector(".next-btn");
-
-    function getCurrentSectionIndex() {
-      const scrollY = window.scrollY;
-      let idx = 0;
-      for (let i = 0; i < sections.length; i++) {
-        if (sections[i].offsetTop - 10 > scrollY) break;
-        idx = i;
+    // MENU HAMBURGER sécurisé
+    (function() {
+      const burger = document.querySelector('.main-nav .burger');
+      const navList = document.querySelector('.main-nav ul');
+      if (burger && navList) {
+        burger.addEventListener('click', function () {
+          burger.classList.toggle('active');
+          navList.classList.toggle('active');
+        });
+        navList.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navList.classList.remove('active');
+          });
+        });
       }
-      return idx;
-    }
+    })();
 
-    // Bouton pour passer à la section suivante
-    nextBtn.addEventListener("click", () => {
-      const idx = getCurrentSectionIndex();
-      if (idx < sections.length - 1) {
-        sections[idx + 1].scrollIntoView({ behavior: "smooth" });
-      }
-    });
+    // SCROLL SECTION PAR SECTION sécurisé
+    (function() {
+      const sections = Array.from(document.querySelectorAll("section"));
+      const nextBtn = document.querySelector(".next-btn");
+      if (!sections.length || !nextBtn) return;
 
-    // Cache le bouton si on est sur la dernière section
-    window.addEventListener("scroll", () => {
-      const idx = getCurrentSectionIndex();
-      if (idx >= sections.length - 1) {
-        nextBtn.style.display = "none";
-      } else {
-        nextBtn.style.display = "flex";
-      }
-    });
-
-    // Gère le scroll "coup" pour passer à la section suivante/précédente
-    let isScrolling = false;
-    window.addEventListener(
-      "wheel",
-      function (e) {
-        if (isScrolling) return;
-        const idx = getCurrentSectionIndex();
-        if (e.deltaY > 40 && idx < sections.length - 1) {
-          isScrolling = true;
-          sections[idx + 1].scrollIntoView({ behavior: "smooth" });
-          setTimeout(() => {
-            isScrolling = false;
-          }, 700);
-          e.preventDefault();
-        } else if (e.deltaY < -40 && idx > 0) {
-          isScrolling = true;
-          sections[idx - 1].scrollIntoView({ behavior: "smooth" });
-          setTimeout(() => {
-            isScrolling = false;
-          }, 700);
-          e.preventDefault();
+      function getCurrentSectionIndex() {
+        const scrollY = window.scrollY;
+        let idx = 0;
+        for (let i = 0; i < sections.length; i++) {
+          if (sections[i].offsetTop - 10 > scrollY) break;
+          idx = i;
         }
-      },
-      { passive: false }
-    );
+        return idx;
+      }
+      nextBtn.addEventListener("click", () => {
+        const idx = getCurrentSectionIndex();
+        if (idx < sections.length - 1) {
+          sections[idx + 1].scrollIntoView({ behavior: "smooth" });
+        }
+      });
+      window.addEventListener("scroll", () => {
+        const idx = getCurrentSectionIndex();
+        if (idx >= sections.length - 1) {
+          nextBtn.style.display = "none";
+        } else {
+          nextBtn.style.display = "flex";
+        }
+      });
+      let isScrolling = false;
+      window.addEventListener(
+        "wheel",
+        function (e) {
+          if (isScrolling) return;
+          const idx = getCurrentSectionIndex();
+          if (e.deltaY > 40 && idx < sections.length - 1) {
+            isScrolling = true;
+            sections[idx + 1].scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => {
+              isScrolling = false;
+            }, 700);
+            e.preventDefault();
+          } else if (e.deltaY < -40 && idx > 0) {
+            isScrolling = true;
+            sections[idx - 1].scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => {
+              isScrolling = false;
+            }, 700);
+            e.preventDefault();
+          }
+        },
+        { passive: false }
+      );
+    })();
+
+    // FORMULAIRE DE CONTACT : mailto dynamique
+    (function() {
+      const form = document.getElementById('contactForm');
+      const formMsg = document.getElementById('form-message');
+      if (!form) return;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nom = document.getElementById('nom').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const objet = document.getElementById('objet').value;
+        const message = document.getElementById('message').value.trim();
+
+        if (!nom || !email || !objet || !message) {
+          formMsg.style.display = 'block';
+          formMsg.style.color = 'red';
+          formMsg.textContent = 'Merci de remplir tous les champs obligatoires.';
+          return;
+        }
+
+        // Prépare le mailto
+        const destinataire = "ton-adresse@mail.com"; // Mets ici ton adresse mail
+        const sujet = encodeURIComponent(`[Contact site] ${objet} - ${nom}`);
+        const corps = encodeURIComponent(
+          `Nom : ${nom}\nEmail : ${email}\nObjet : ${objet}\n\nMessage :\n${message}`
+        );
+        window.location.href = `mailto:${destinataire}?subject=${sujet}&body=${corps}`;
+      });
+    })();
   </script>
 </body>
 </html>
