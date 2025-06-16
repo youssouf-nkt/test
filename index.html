@@ -414,6 +414,128 @@
         .next-btn:hover {
             background: #a00;
         }
+        /* MODIFICATION ICI pour que tous les liens 'learn-more-link' s'étendent */
+        .learn-more-link {
+            display: block; /* Prend toute la largeur disponible */
+            margin-top: 20px; /* Conserve la marge supérieure */
+            padding: 10px 15px;
+            background-color: #b81c2c;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            text-align: left; /* NOUVEAU: Aligne le texte à gauche */
+        }
+        .learn-more-link:hover {
+            background-color: #a00;
+        }
+        /* L'ancien bloc `#magemotion .learn-more-link` a été supprimé ou commenté */
+
+        /* Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .gallery-item {
+            cursor: pointer;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 180px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures images cover the area without distortion */
+            display: block;
+            border-bottom: 2px solid #eee;
+        }
+        .gallery-item-title {
+            padding: 10px;
+            font-weight: bold;
+            color: #b81c2c;
+            font-size: 1.1em;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 2000; /* Sit on top */
+            padding-top: 50px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+        .modal-content, #caption {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+        .magemotion-images { /* Renamed for clarity within this section */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .magemotion-images img {
+            width: 100%;
+            max-width: 300px; /* Limit width for larger screens */
+            height: auto;
+            border: 2px solid #b81c2c;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -432,8 +554,9 @@
         <nav class="main-nav">
             <ul>
                 <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#présentation">Projet</a></li>
+                <li><a href="#présentation">Modules et technologie</a></li>
                 <li><a href="#magemotion">Mage Motion</a></li>
+                <li><a href="#gallery">Galerie d'images</a></li>
                 <li><a href="#Equipe">Equipe</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -449,7 +572,7 @@
         <section id="accueil">
             <h2>VR-Rehab</h2>
             <p>
-                Conçu pour la rééducation motrice des enfants atteints d’hémiplégie infantile, MageMotion s’appuie sur la thérapie miroir et la gamification pour rendre la rééducation plus motivante.
+                VR-Rehab est une application de rééducation motrice en réalité virtuelle pensée pour les enfants atteints d’hémiparésie. Elle s’appuie sur le principe de la thérapie miroir, qui consiste à refléter les mouvements de la main saine sur la main affectée pour stimuler la récupération. L’objectif est de rendre la rééducation plus motivante en combinant des exercices thérapeutiques et des éléments de jeu dans un environnement immersif.
             </p>
             <div class="stats-row">
                 <div class="stats-block">
@@ -469,19 +592,14 @@
                     <div class="stat-label">DES PARALYSIES CÉRÉBRALES DE L’ENFANT SONT DES HÉMIPLÉGIES</div>
                 </div>
             </div>
+            <a href="#" class="learn-more-link">En savoir plus</a>
         </section>
 
         <section id="présentation">
-            <h2>Projet</h2>
+            <h2>Modules et technologie</h2>
             <div class="content-wrapper">
                 <p>
-                    L’objectif principal est ainsi de créer une expérience où les patients peuvent
-                    s'entraîner avec des exercices thérapeutiques traditionnels tout en intégrant
-                    des éléments de jeu pour stimuler leur engagement et les motiver à persévérer
-                    dans leur rééducation. En s'appuyant sur les principes de la thérapie miroir,
-                    il vise à rendre les exercices de rééducation plus attrayants et engageants,
-                    encourageant ainsi les jeunes patients à persévérer dans leur parcours de
-                    rétablissement.
+                    L’application a été conçue sous Unity, avec une compatibilité multiplateforme assurée par l’utilisation d’OpenXR. Le hand tracking est géré via la bibliothèque XR Hands, optimisée pour les casques Meta Quest 3. Plusieurs modules ont été développés pour structurer les fonctionnalités du système : un module de thérapie miroir permettant de refléter la main saine sur la main affectée (reflet total ou partiel), un test d’ajustement automatique qui mesure les capacités du patient afin d’appliquer un gain personnalisé, et un module d’enregistrement des données de mouvement pour le suivi des progrès. Des outils de personnalisation permettent aussi de configurer les gestes à réaliser, les paramètres audio ou encore la langue de l’interface. Bien qu’une étude ait été menée pour intégrer un Leap Motion Controller afin d'améliorer la précision du suivi des mains, cette piste a été abandonnée en raison de limitations techniques.
                 </p>
                 <iframe
                     width="560"
@@ -494,28 +612,61 @@
                     allowfullscreen
                 ></iframe>
             </div>
+            <a href="#" class="learn-more-link">En savoir plus</a>
         </section>
 
         <section id="magemotion">
             <h2>Mage Motion</h2>
             <div class="texte">
                 <strong>1. Introduction</strong><br />
-                MageMotion: Virtual Rehabilitation Quest est un jeu de rééducation motrice conçu
-                pour aider les enfants atteints d'hémiplégie infantile. En utilisant les
-                principaux de la thérapie miroir et la réalité virtuelle, ce jeu rend la
-                rééducation plus engageante et efficace en immergeant les patients dans un
-                environnement ludique et interactif.<br /><br />
+                MageMotion est un mini-jeu thérapeutique intégré à l’application, conçu sous forme de Tower Defense pour rendre la rééducation plus attractive. Le joueur y incarne un magicien chargé de défendre une tour contre des vagues d’ennemis. Pour les vaincre, il doit exécuter des gestes spécifiques inspirés des exercices de rééducation motrice : fermer le poing, effectuer une supination, saisir et lancer un objet, ou encore pointer une cible. Ces gestes doivent être réalisés avec précision dans une zone bien définie, permettant à la fois le suivi par le casque et l’observation par le patient.<br /><br />
                 <strong>2. Concept et description du jeu</strong><br />
-                Le jeu se déroule dans un environnement virtuel où le joueur, incarnant un
-                magicien, doit défendre un château contre des ennemis en réalisant des gestes
-                spécifiques. Ces gestes, inspirés d'exercices thérapeutiques, encouragent la
-                rééducation motrice tout en offrant une expérience de jeu captivante.
+                Le jeu introduit des mécaniques de progression et de récompense (score, monnaie virtuelle, amélioration des capacités) afin de motiver l’enfant à recommencer les séances. MageMotion représente ainsi l’alliance entre exigence clinique et plaisir de jeu, en rendant les exercices moteurs à la fois utiles et ludiques.
             </div>
-            <div class="image">
-                <img
-                    src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80"
-                    alt="Illustration du jeu"
-                />
+             <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="mage_motion_gameplay1.png" alt="Description de l'image 1">
+                    <div class="gallery-item-title">Gameplay MageMotion</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="mage_motion_gameplay3.png" alt="Description de l'image 2">
+                    <div class="gallery-item-title">Boutique d'équipement</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="mage_motion_gameplay2.png" alt="Description de l'image 2">
+                    <div class="gallery-item-title">Organigrame Gameplay</div>
+                </div>
+            </div>
+            <a href="#" class="learn-more-link">En savoir plus</a>
+        </section>
+
+        <section id="gallery">
+            <h2>Galerie d'images</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="image1.png" alt="Description de l'image 1">
+                    <div class="gallery-item-title">Menu principale</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="image2.png" alt="Description de l'image 2">
+                    <div class="gallery-item-title">Interface du tutoriel</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="image3.png" alt="Description de l'image 3">
+                    <div class="gallery-item-title">Zone de délimitation</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="image4.png" alt="Description de l'image 4">
+                    <div class="gallery-item-title">Menu des paramètres</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="image5.png" alt="Description de l'image 5">
+                    <div class="gallery-item-title">Test d'ajustement</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="image6.png" alt="Description de l'image 6">
+                    <div class="gallery-item-title">Modèles 3D des ennemies</div>
+                </div>
             </div>
         </section>
 
@@ -560,6 +711,12 @@
                 <div id="form-message"></div>
             </form>
         </section>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="modal-close">×</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
     </div>
 
     <button class="next-btn" aria-label="Section suivante">↓</button>
@@ -614,6 +771,8 @@
                     nextBtn.style.display = "flex";
                 }
             });
+            /*
+            // Ancien code pour le défilement automatique à la molette (désactivé)
             let isScrolling = false;
             window.addEventListener(
                 "wheel",
@@ -638,6 +797,7 @@
                 },
                 { passive: false }
             );
+            */
         })();
 
         (function() {
@@ -663,6 +823,44 @@
                     `Nom : ${nom}\nEmail : ${email}\nObjet : ${objet}\n\nMessage :\n${message}`
                 );
                 window.location.href = `mailto:${destinataire}?subject=${sujet}&body=${corps}`;
+            });
+        })();
+
+        // Gallery Modal Logic
+        (function() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("img01");
+            const captionText = document.getElementById("caption");
+            const galleryItems = document.querySelectorAll(".gallery-item");
+            // Select both the images in the dedicated gallery and the ones in MageMotion
+            const clickableImages = document.querySelectorAll(".gallery-grid img, .magemotion-images img");
+            const closeModal = document.querySelector(".modal-close");
+
+            // Function to open modal for a given image src and alt text
+            function openModal(imgSrc, imgAlt) {
+                modal.style.display = "block";
+                modalImg.src = imgSrc;
+                captionText.innerHTML = imgAlt;
+            }
+
+            // Event listeners for all clickable images
+            clickableImages.forEach(img => {
+                img.addEventListener("click", function() {
+                    const imgSrc = this.src;
+                    const imgAlt = this.alt; // Use alt text for caption
+                    openModal(imgSrc, imgAlt);
+                });
+            });
+
+            closeModal.addEventListener("click", function() {
+                modal.style.display = "none";
+            });
+
+            // Close modal when clicking outside the image
+            modal.addEventListener("click", function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
             });
         })();
     </script>
