@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 5: Le Box and Block Test (BBT) en Réalité Virtuelle - MageMotion</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .main-header {
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        /* Banner Styles - Adapted from index.php */
+        .cedric-banner {
+            position: relative;
+            background: #b81c2c;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-direction: column;
+            text-align: center;
+            color: white; /* Added for banner text */
+            font-weight: bold; /* Added for banner text */
+        }
+        .banner-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+            width: 100%;
+        }
+        .logo-wrapper {
+            background-color: #fff;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            padding: 5px 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .banner-logo {
+            max-width: 250px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .cedric-banner h1 { /* Adjusted for module pages */
+            color: #fff;
+            font-size: 2.5em; /* Slightly smaller for module titles */
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 2;
+            text-align: center;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px #a00, 0 0 1px #fff;
+            padding: 0;
+            margin-top: 10px; /* Added some margin for the title */
+        }
+        .cedric-banner p { /* Added for module banner description */
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            position: relative; /* Ensure it's above squares */
+            z-index: 2; /* Ensure it's above squares */
+        }
+
+        /* Squares Animation - Copied from index.php */
+        .cedric-banner .squares {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0; top: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .cedric-banner .squares span {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 2px;
+            opacity: 0.7;
+            animation: float 10s linear infinite;
+        }
+        .cedric-banner .squares span:nth-child(1) {
+            width: 38px; height: 38px; left: 10%; top: 30px; animation-delay: 0s;
+        }
+        .cedric-banner .squares span:nth-child(2) {
+            width: 18px; height: 18px; left: 30%; top: 80px; animation-delay: 2s;
+        }
+        .cedric-banner .squares span:nth-child(3) {
+            width: 28px; height: 28px; left: 55%; top: 20px; animation-delay: 4s;
+        }
+        .cedric-banner .squares span:nth-child(4) {
+            width: 14px; height: 14px; left: 70%; top: 60px; animation-delay: 1s;
+        }
+        .cedric-banner .squares span:nth-child(5) {
+            width: 22px; height: 22px; left: 85%; top: 40px; animation-delay: 3s;
+        }
+        @keyframes float {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(25px);}
+        }
+        /* Styles pour le conteneur vidéo et la vidéo elle-même */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* C'est le ratio 16:9 (9 / 16 = 0.5625). Changez si votre vidéo a un autre ratio (ex: 75% pour 4:3) */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%; /* S'assure que le conteneur ne dépasse pas la largeur du parent */
+    background: #000; /* Fond noir pendant le chargement */
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px; /* Bords arrondis */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Petite ombre portée */
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Supprime toute bordure par défaut */
+}
+
+.video-caption {
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+    margin-top: 10px;
+}
+
+/* Vous pouvez ajouter des media queries si vous voulez des comportements spécifiques sur mobile,
+   bien que le code ci-dessus soit déjà responsive */
+/*
+@media (max-width: 768px) {
+    .video-container {
+        padding-bottom: 75%; // Exemple pour un ratio 4:3 sur mobile si nécessaire, mais 16:9 est souvent suffisant
+    }
+}
+*/
+
+        /* Responsive Banner Adjustments */
+        @media (max-width: 900px) {
+            .banner-logo {
+                max-width: 150px;
+            }
+            .cedric-banner h1 {
+                font-size: 2.2em;
+            }
+        }
+        @media (min-width: 769px) {
+            .banner-content {
+                flex-direction: row;
+                justify-content: center;
+                text-align: left;
+                gap: 30px;
+            }
+            .cedric-banner h1 {
+                font-size: 3.2em; /* Larger for desktop */
+                text-align: left;
+            }
+        }
+
+        /* Main Content Styles */
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            line-height: 1.8;
+            color: #444;
+        }
+
+        main h2, main h3 {
+            color: #b81c2c;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        main ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 10px 0;
+        }
+
+        main ul li {
+            margin-bottom: 10px;
+        }
+
+        main p {
+            margin-bottom: 15px;
+        }
+
+        /* Footer Styles - Modified */
+        .main-footer {
+            background: #b81c2c; /* Rouge vif comme la bannière */
+            color: #f7f7f7;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+        /* Module Navigation Bar */
+        .module-nav {
+            width: 100%;
+            background: #444; /* Darker background for module nav */
+            color: #fff;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .module-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Space between icon and text */
+        }
+        .module-nav a:hover,
+        .module-nav a:focus {
+            background: #b81c2c;
+            color: #fff;
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        .module-nav a::before {
+            content: '←'; /* Unicode left arrow */
+            font-size: 1.2em;
+        }
+                /* Styles pour les images responsives et la galerie */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap; /* Permet aux images de passer à la ligne sur petits écrans */
+    gap: 20px; /* Espace entre les images */
+    justify-content: center; /* Centre les images horizontalement */
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.image-item {
+    flex: 1 1 calc(50% - 20px); /* Par défaut, deux images par ligne, moins le gap */
+    max-width: calc(50% - 20px); /* Empêche les images de prendre plus de 50% */
+    box-sizing: border-box; /* Inclut le padding et border dans la largeur */
+    text-align: left; /* Centre la légende */
+    background: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Assure que l'image ne dépasse pas les bords arrondis */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.image-item:hover {
+    transform: translateY(-5px); /* Petit effet au survol */
+}
+
+.image-item img {
+    max-width: 100%; /* Rend l'image fluide et ne dépasse pas son conteneur */
+    height: auto; /* Maintient le ratio d'aspect de l'image */
+    display: block; /* Supprime l'espace sous l'image */
+    border-bottom: 1px solid #eee; /* Petite séparation avec la légende */
+    margin-bottom: 10px;
+}
+
+.image-item figcaption {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Media Queries pour la responsivité */
+@media (max-width: 768px) {
+    .image-item {
+        flex: 1 1 calc(100% - 20px); /* Une image par ligne sur les écrans de taille moyenne */
+        max-width: calc(100% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .image-item {
+        flex: 1 1 100%; /* Une image par ligne sur les très petits écrans, sans gap */
+        max-width: 100%;
+        margin: 0 0 20px 0; /* Ajoute un espacement en bas si pas de gap */
+    }
+    .image-gallery {
+        gap: 0; /* Pas de gap si les éléments prennent toute la largeur */
+    }
+}
+main h2, main h3 {
+    color: #b81c2c;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    text-align: center; /* Ajoutez cette ligne pour aligner le texte à gauche */
+}
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="cedric-banner">
+            <div class="banner-content">
+                <div class="logo-wrapper">
+                    <img src="Logo1.png" alt="Logo de l'institut Le Cnam Cedric" class="banner-logo" />
+                </div>
+                <div>
+                    <h1>Module 5: Le Box and Block Test (BBT) en Réalité Virtuelle</h1>
+                    <p>Comment un test clinique standardisé est transformé par la VR.</p>
+                </div>
+            </div>
+            <div class="squares" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <nav class="module-nav" aria-label="Navigation secondaire de module">
+    <a href="index.php#modules" aria-label="Retourner à la page principale et à la section Modules">Retour à la page principale</a>
+</nav>
+    </header>
+
+    <main>
+        <h1>Module 5: Le Box and Block Test (BBT) en Réalité Virtuelle</h1>
+        <p>Le cinquième module de notre projet intègre une version virtuelle du célèbre Box and Block Test (BBT).  Le BBT est un outil majeur et reconnu en rééducation, et sa transposition en réalité virtuelle apporte de nombreux avantages. </p>
+
+        <h3>Qu'est-ce que le Box and Block Test (BBT) ?</h3>
+        <p>Le Box and Block Test est une évaluation standardisée, largement utilisée par les ergothérapeutes et les physiothérapeutes.  Il mesure la dextérité manuelle, c'est-à-dire la capacité d'une main à faire des mouvements précis et rapides.  Le test physique est simple: </p>
+        <ul>
+            <li>Matériel: Une boîte séparée en deux compartiments par une cloison.  Des blocs en bois (souvent 150) sont dans un des compartiments. </li>
+            <li>Tâche: Le patient doit déplacer un maximum de blocs, un par un, d'un compartiment à l'autre, en passant par-dessus la cloison, dans un temps donné (souvent 60 secondes). </li>
+            <li>Mesure: Le score est le nombre de blocs correctement déplacés. Le test est fait pour chaque main séparément. </li>
+        </ul>
+        <p>Le BBT est particulièrement pertinent pour évaluer la fonction du bras et de la main chez des personnes ayant des problèmes neurologiques, comme nos jeunes patients avec hémiparésie infantile, car il reflète la coordination, la vitesse et le contrôle moteur. </p>
+
+        <h3>Pourquoi intégrer le BBT dans notre application VR ?</h3>
+        <p>L'intégration du BBT dans l'environnement virtuel de notre application offre des améliorations significatives par rapport au test traditionnel: </p>
+        <ul>
+            <li><strong>Objectivité et Précision des Mesures:</strong>
+                <p>Le système de réalité virtuelle (via le Module d'Enregistrement et d'Analyse des Données, Module 4) enregistre les mouvements avec une précision bien supérieure à l'œil humain.  Il mesure automatiquement le temps et le nombre exact de blocs, éliminant toute erreur de comptage. </p></li>
+            <li><strong>Environnement Immersif et Ludique :</strong>
+                <p>Le test n'est plus perçu comme une évaluation clinique froide, mais comme une activité de jeu.  Dans notre application, les blocs peuvent être des objets amusants pour les enfants (par exemple, des "animaux" ou des "moutons" virtuels).  Cette approche ludique réduit le stress de la performance et augmente l'envie de participer. </p></li>
+            <li><strong>Thérapie Miroir Intégrée :</strong>
+                <p>Le BBT en VR est parfaitement compatible avec le Module de Thérapie Miroir (Module 1).  Le patient peut déplacer les objets virtuels avec sa main saine, et voir sa main affectée (en reflet virtuel) réaliser le même mouvement.  Cela renforce l'efficacité de la Thérapie Miroir dans un contexte de tâche fonctionnelle. </p></li>
+            <li><strong>Retour d'Information Instantané:</strong>
+                <p>L'interface utilisateur affiche en temps réel le nombre d'objets déplacés et le temps écoulé.  Par exemple: "Nombre de Moutons dans la boîte verte: 0/10" et "Temps: 00:00". Une fois la tâche finie, le temps se fige, donnant un feedback immédiat. Cette rétroaction rapide est très motivante. </p></li>
+        </ul>
+
+        <h3>Comment le BBT fonctionne-t-il spécifiquement dans notre application?</h3>
+        <p>Nos documents détaillent la mise en œuvre de ce module: </p>
+        <ul>
+            <li>Scène VR dédiée: Il y a une scène spécifique dans Unity pour le "Box and Block Test", avec les deux compartiments et les objets à déplacer. </li>
+            <li>Manipulation des "Agents": Les "blocs" sont représentés par des "agents" virtuels (comme des animaux).  Le patient interagit avec eux pour les déplacer. </li>
+            <li>Composant "MirrorAgent" : C'est un élément clé.  Quand le patient saisit et déplace un agent avec sa main saine, le "MirrorAgent" crée et synchronise un clone de cet agent, symétriquement, créant l'illusion que la main affectée déplace le même objet.  Même si la fluidité parfaite des rotations est un défi que nous continuons d'optimiser, l'objectif est de renforcer le sentiment de mouvement. </li>
+            <li>Suivi et Finalisation: Le système détecte quand un "animal" est correctement déplacé.  Il compte le nombre total d'animaux et, une fois l'objectif atteint (par exemple, 10 moutons déplacés), le chronomètre s'arrête pour afficher le temps final. </li>
+        </ul></main>
+        <main>
+    <h2>Vidéo de démonstration du Module</h2>
+
+    <div class="video-container">
+        <video controls>
+            <source src="video5.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Vidéo 1: Une démonstration visuelle de BBT.</p>
+    </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 MageMotion: Virtual Rehabilitation Quest. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 1: La Thérapie Miroir en Réalité Virtuelle - MageMotion</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .main-header {
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        /* Banner Styles - Adapted from index.php */
+        .cedric-banner {
+            position: relative;
+            background: #b81c2c;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-direction: column;
+            text-align: center;
+            color: white; /* Added for banner text */
+            font-weight: bold; /* Added for banner text */
+        }
+        .banner-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+            width: 100%;
+        }
+        .logo-wrapper {
+            background-color: #fff;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            padding: 5px 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .banner-logo {
+            max-width: 250px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .cedric-banner h1 { /* Adjusted for module pages */
+            color: #fff;
+            font-size: 2.5em; /* Slightly smaller for module titles */
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 2;
+            text-align: center;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px #a00, 0 0 1px #fff;
+            padding: 0;
+            margin-top: 10px; /* Added some margin for the title */
+        }
+        .cedric-banner p { /* Added for module banner description */
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            position: relative; /* Ensure it's above squares */
+            z-index: 2; /* Ensure it's above squares */
+        }
+
+        /* Squares Animation - Copied from index.php */
+        .cedric-banner .squares {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0; top: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .cedric-banner .squares span {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 2px;
+            opacity: 0.7;
+            animation: float 10s linear infinite;
+        }
+        .cedric-banner .squares span:nth-child(1) {
+            width: 38px; height: 38px; left: 10%; top: 30px; animation-delay: 0s;
+        }
+        .cedric-banner .squares span:nth-child(2) {
+            width: 18px; height: 18px; left: 30%; top: 80px; animation-delay: 2s;
+        }
+        .cedric-banner .squares span:nth-child(3) {
+            width: 28px; height: 28px; left: 55%; top: 20px; animation-delay: 4s;
+        }
+        .cedric-banner .squares span:nth-child(4) {
+            width: 14px; height: 14px; left: 70%; top: 60px; animation-delay: 1s;
+        }
+        .cedric-banner .squares span:nth-child(5) {
+            width: 22px; height: 22px; left: 85%; top: 40px; animation-delay: 3s;
+        }
+        @keyframes float {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(25px);}
+        }
+
+        /* Responsive Banner Adjustments */
+        @media (max-width: 900px) {
+            .banner-logo {
+                max-width: 150px;
+            }
+            .cedric-banner h1 {
+                font-size: 2.2em;
+            }
+        }
+        @media (min-width: 769px) {
+            .banner-content {
+                flex-direction: row;
+                justify-content: center;
+                text-align: left;
+                gap: 30px;
+            }
+            .cedric-banner h1 {
+                font-size: 3.2em; /* Larger for desktop */
+                text-align: left;
+            }
+        }
+
+
+        /* Main Content Styles */
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            line-height: 1.8;
+            color: #444;
+        }
+
+        main h2, main h3 {
+            color: #b81c2c;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        main ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 10px 0;
+        }
+
+        main ul li {
+            margin-bottom: 10px;
+        }
+
+        main p {
+            margin-bottom: 15px;
+        }
+
+        /* Footer Styles - Modified */
+        .main-footer {
+            background: #b81c2c; /* Rouge vif comme la bannière */
+            color: #f7f7f7;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+        /* Module Navigation Bar */
+        .module-nav {
+            width: 100%;
+            background: #444; /* Darker background for module nav */
+            color: #fff;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .module-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Space between icon and text */
+        }
+        .module-nav a:hover,
+        .module-nav a:focus {
+            background: #b81c2c;
+            color: #fff;
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        .module-nav a::before {
+            content: '←'; /* Unicode left arrow */
+            font-size: 1.2em;
+        }
+                /* Styles pour les images responsives et la galerie */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap; /* Permet aux images de passer à la ligne sur petits écrans */
+    gap: 20px; /* Espace entre les images */
+    justify-content: center; /* Centre les images horizontalement */
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.image-item {
+    flex: 1 1 calc(50% - 20px); /* Par défaut, deux images par ligne, moins le gap */
+    max-width: calc(50% - 20px); /* Empêche les images de prendre plus de 50% */
+    box-sizing: border-box; /* Inclut le padding et border dans la largeur */
+    text-align: left; /* Centre la légende */
+    background: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Assure que l'image ne dépasse pas les bords arrondis */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.image-item:hover {
+    transform: translateY(-5px); /* Petit effet au survol */
+}
+
+.image-item img {
+    max-width: 100%; /* Rend l'image fluide et ne dépasse pas son conteneur */
+    height: auto; /* Maintient le ratio d'aspect de l'image */
+    display: block; /* Supprime l'espace sous l'image */
+    border-bottom: 1px solid #eee; /* Petite séparation avec la légende */
+    margin-bottom: 10px;
+}
+
+.image-item figcaption {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Media Queries pour la responsivité */
+@media (max-width: 768px) {
+    .image-item {
+        flex: 1 1 calc(100% - 20px); /* Une image par ligne sur les écrans de taille moyenne */
+        max-width: calc(100% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .image-item {
+        flex: 1 1 100%; /* Une image par ligne sur les très petits écrans, sans gap */
+        max-width: 100%;
+        margin: 0 0 20px 0; /* Ajoute un espacement en bas si pas de gap */
+    }
+    .image-gallery {
+        gap: 0; /* Pas de gap si les éléments prennent toute la largeur */
+    }
+}
+main h2, main h3 {
+    color: #b81c2c;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    text-align: center; /* Ajoutez cette ligne pour aligner le texte à gauche */
+}
+/* Styles pour le conteneur vidéo et la vidéo elle-même */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* C'est le ratio 16:9 (9 / 16 = 0.5625). Changez si votre vidéo a un autre ratio (ex: 75% pour 4:3) */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%; /* S'assure que le conteneur ne dépasse pas la largeur du parent */
+    background: #000; /* Fond noir pendant le chargement */
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px; /* Bords arrondis */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Petite ombre portée */
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Supprime toute bordure par défaut */
+}
+
+.video-caption {
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+    margin-top: 10px;
+}
+
+/* Vous pouvez ajouter des media queries si vous voulez des comportements spécifiques sur mobile,
+   bien que le code ci-dessus soit déjà responsive */
+/*
+@media (max-width: 768px) {
+    .video-container {
+        padding-bottom: 75%; // Exemple pour un ratio 4:3 sur mobile si nécessaire, mais 16:9 est souvent suffisant
+    }
+}
+*/
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="cedric-banner">
+            <div class="banner-content">
+                <div class="logo-wrapper">
+                    <img src="Logo1.png" alt="Logo de l'institut Le Cnam Cedric" class="banner-logo" />
+                </div>
+                <div>
+                    <h1>Module 7 : Tests de Vitesse et de Maintien (Speed Test et Maintien Test)</h1>
+                    <p>Découvrez les fondements du premier pilier de "MageMotion: Virtual Rehabilitation Quest".</p>
+                </div>
+            </div>
+            <div class="squares" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+         <nav class="module-nav" aria-label="Navigation secondaire de module">
+    <a href="index.php#modules" aria-label="Retourner à la page principale et à la section Modules">Retour à la page principale</a>
+</nav>
+        
+    </header>
+
+    <main>
+         <h1>Module 7 : Tests de Vitesse et de Maintien (Speed Test et Maintien Test)</h1>
+        <p>Ce module est spécifiquement conçu pour évaluer deux aspects cruciaux de la motricité fine : la rapidité d'exécution et la capacité à maintenir une pose précise. Il offre des outils complémentaires au Box and Block Test pour une évaluation plus détaillée de la dextérité.</p>
+
+        <h3>1. Le Speed Test</h3>
+        <p>Le Speed Test est un exercice dynamique qui mesure la vitesse à laquelle un patient peut effectuer des mouvements ciblés.</p>
+        <ul>
+            <li><strong>Principe :</strong> Le patient doit réaliser une série de gestes ou d'actions (par exemple, toucher des cibles virtuelles, simuler des actions rapides) dans un temps imparti ou en mesurant le temps qu'il met pour accomplir une tâche donnée. L'interface peut afficher un chronomètre pour le motiver.</li>
+            <li><strong>Objectif clinique :</strong> Évaluer la vélocité des mouvements et la rapidité de réaction. Cela permet de suivre l'amélioration de la coordination rapide et de la fluidité, des indicateurs importants de récupération motrice. Il s'apparente au BBT par son principe de mesure de vitesse, mais peut être adapté à des gestes plus spécifiques.</li>
+            <li><strong>Intégration et Données :</strong> Le Module de Détection et Reconnaissance des Gestes (Module 2) est essentiel pour reconnaître la complétion des gestes. Le Module d'Enregistrement et d'Analyse des Données (Module 4) capture le temps de réalisation, la fluidité, et le nombre de répétitions, permettant une analyse quantitative des progrès.</li>
+        </ul>
+
+        <h3>2. Le Maintien Test</h3>
+        <p>Le Maintien Test est un exercice statique qui évalue la capacité du patient à maintenir une pose ou une position spécifique avec précision et stabilité sur une durée donnée. La vidéo que vous avez partagée du "Middle Pinch" en est un excellent exemple.</p>
+        <ul>
+            <li><strong>Principe :</strong> Le patient est invité à reproduire et à tenir une pose de la main ou des doigts (comme un "Middle Pinch") pendant une période définie. Le système de hand tracking vérifie la conformité de la pose par rapport à un modèle.</li>
+            <li><strong>Objectif clinique :</strong> Mesurer la force musculaire, l'endurance statique et le contrôle moteur fin. C'est essentiel pour des activités quotidiennes qui demandent de tenir des objets ou des positions stables.</li>
+            <li><strong>Intégration et Données :</strong> Ce test s'appuie fortement sur les capacités du Module de Détection et de Reconnaissance des Gestes (Module 2), notamment les composants Static Hand Gesture et XR Hand Shape / XR Pose pour valider la tenue de la pose. Le Module d'Enregistrement et d'Analyse des Données (Module 4) enregistre la durée de maintien correct, la déviation par rapport à la pose cible, et le nombre de tentatives.</li>
+            <li><strong>Rétroaction :</strong> Une interface visuelle peut indiquer en temps réel si la pose est correctement maintenue et le temps restant, offrant un feedback clair au patient.</li>
+        </ul>
+
+        <h3>3. Personnalisation et Impact Thérapeutique</h3>
+        <p>Ces deux tests bénéficient directement de l'intégration avec les autres modules :</p>
+        <ul>
+            <li><strong>Thérapie Miroir (Module 1) :</strong> Les patients peuvent observer le reflet de leur main saine réalisant rapidement des mouvements (Speed Test) ou maintenant une pose parfaite (Maintien Test), renforçant l'illusion de mouvement et stimulant l'imagerie motrice du côté affecté.</li>
+            <li><strong>Adaptation de la Difficulté (Module 3) :</strong> La difficulté de ces tests est ajustable. Pour le Speed Test, on peut varier le nombre de cibles, leur rapidité d'apparition ou la complexité des mouvements. Pour le Maintien Test, on peut augmenter la durée de maintien ou exiger une précision plus grande dans la pose. Le système peut également prioriser les mouvements ou les poses où le patient a le plus de difficultés.</li>
+            <li><strong>Analyse Approfondie (Module 4) :</strong> Les données collectées permettent aux thérapeutes de suivre les progrès en termes de vitesse d'exécution, de précision et de capacité de maintien, offrant une évaluation objective des améliorations fonctionnelles.</li>
+        </ul>
+    </main>
+    <main>
+    <h2>Vidéo de démonstration du Module</h2>
+
+    <div class="video-container">
+        <video controls>
+            <source src="video7.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Vidéo 1: Une démonstration visuelle de notre module.</p>
+    </div>
+
+    </main>
+
+
+    <footer class="main-footer">
+        <p>&copy; 2024 MageMotion: Virtual Rehabilitation Quest. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

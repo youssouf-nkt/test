@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 6: Range of Motion (Amplitudes de Mouvement) - MageMotion</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .main-header {
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        /* Banner Styles - Adapted from index.php */
+        .cedric-banner {
+            position: relative;
+            background: #b81c2c;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-direction: column;
+            text-align: center;
+            color: white; /* Added for banner text */
+            font-weight: bold; /* Added for banner text */
+        }
+        .banner-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+            width: 100%;
+        }
+        .logo-wrapper {
+            background-color: #fff;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            padding: 5px 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .banner-logo {
+            max-width: 250px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .cedric-banner h1 { /* Adjusted for module pages */
+            color: #fff;
+            font-size: 2.5em; /* Slightly smaller for module titles */
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 2;
+            text-align: center;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px #a00, 0 0 1px #fff;
+            padding: 0;
+            margin-top: 10px; /* Added some margin for the title */
+        }
+        .cedric-banner p { /* Added for module banner description */
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            position: relative; /* Ensure it's above squares */
+            z-index: 2; /* Ensure it's above squares */
+        }
+
+        /* Squares Animation - Copied from index.php */
+        .cedric-banner .squares {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0; top: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .cedric-banner .squares span {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 2px;
+            opacity: 0.7;
+            animation: float 10s linear infinite;
+        }
+        .cedric-banner .squares span:nth-child(1) {
+            width: 38px; height: 38px; left: 10%; top: 30px; animation-delay: 0s;
+        }
+        .cedric-banner .squares span:nth-child(2) {
+            width: 18px; height: 18px; left: 30%; top: 80px; animation-delay: 2s;
+        }
+        .cedric-banner .squares span:nth-child(3) {
+            width: 28px; height: 28px; left: 55%; top: 20px; animation-delay: 4s;
+        }
+        .cedric-banner .squares span:nth-child(4) {
+            width: 14px; height: 14px; left: 70%; top: 60px; animation-delay: 1s;
+        }
+        .cedric-banner .squares span:nth-child(5) {
+            width: 22px; height: 22px; left: 85%; top: 40px; animation-delay: 3s;
+        }
+        @keyframes float {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(25px);}
+        }
+
+        /* Responsive Banner Adjustments */
+        @media (max-width: 900px) {
+            .banner-logo {
+                max-width: 150px;
+            }
+            .cedric-banner h1 {
+                font-size: 2.2em;
+            }
+        }
+        @media (min-width: 769px) {
+            .banner-content {
+                flex-direction: row;
+                justify-content: center;
+                text-align: left;
+                gap: 30px;
+            }
+            .cedric-banner h1 {
+                font-size: 3.2em; /* Larger for desktop */
+                text-align: left;
+            }
+        }
+
+        /* Main Content Styles */
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            line-height: 1.8;
+            color: #444;
+        }
+
+        main h2, main h3 {
+            color: #b81c2c;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        main ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 10px 0;
+        }
+
+        main ul li {
+            margin-bottom: 10px;
+        }
+
+        main p {
+            margin-bottom: 15px;
+        }
+
+        /* Footer Styles - Modified */
+        .main-footer {
+            background: #b81c2c; /* Rouge vif comme la bannière */
+            color: #f7f7f7;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+        /* Module Navigation Bar */
+        .module-nav {
+            width: 100%;
+            background: #444; /* Darker background for module nav */
+            color: #fff;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 2px 5px #444;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .module-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Space between icon and text */
+        }
+        .module-nav a:hover,
+        .module-nav a:focus {
+            background: #b81c2c;
+            color: #fff;
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        .module-nav a::before {
+            content: '←'; /* Unicode left arrow */
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="cedric-banner">
+            <div class="banner-content">
+                <div class="logo-wrapper">
+                    <img src="Logo1.png" alt="Logo de l'institut Le Cnam Cedric" class="banner-logo" />
+                </div>
+                <div>
+                    <h1>Module 6: Range of Motion (Amplitudes de Mouvement)</h1>
+                    <p>Évaluation et amélioration des amplitudes articulaires dans "MageMotion".</p>
+                </div>
+            </div>
+            <div class="squares" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <nav class="module-nav" aria-label="Navigation secondaire de module">
+    <a href="index.php#modules" aria-label="Retourner à la page principale et à la section Modules">Retour à la page principale</a>
+</nav>
+    </header>
+
+    <main>
+        <h1>Module 6: Range of Motion (Amplitudes de Mouvement)</h1>
+        <p>Ce sixième module de notre projet se concentre sur l'évaluation et l'amélioration de l'Amplitude de Mouvement (Range of Motion - ROM).  Ce module, bien que moins axé sur la "gamification" pure que le "Tower Defense", est crucial pour une rééducation motrice complète et sert de tâche d'évaluation essentielle dans le système. </p>
+
+        <h3>Qu'est-ce que l'Amplitude de Mouvement (ROM) ?</h3>
+        <p>L'Amplitude de Mouvement d'une articulation (comme le coude, le poignet ou les doigts) représente toute l'étendue des mouvements qu'elle peut effectuer.  Par exemple, pour l'épaule, c'est la capacité à lever le bras très haut, à l'écarter, à le faire pivoter. </p>
+        <ul>
+            <li>ROM Active: Ce que la personne peut bouger par elle-même, en utilisant ses propres muscles. </li>
+            <li>ROM Passive: Ce que l'articulation peut bouger si quelqu'un d'autre (un thérapeute) ou un dispositif la déplace. </li>
+        </ul>
+        <p>Chez nos jeunes patients, la ROM du membre affecté est souvent limitée.  La rééducation vise à la restaurer ou à l'améliorer pour permettre des mouvements plus fonctionnels. </p>
+
+        <h3>Pourquoi évaluer et travailler la ROM en rééducation ?</h3>
+        <ul>
+            <li>Diagnostic et Suivi: Mesurer la ROM aide les thérapeutes à comprendre les limitations et à suivre objectivement les progrès. </li>
+            <li>Fonctionnalité au Quotidien: Une bonne ROM est indispensable pour effectuer les activités de la vie quotidienne (s'habiller, manger, attraper des objets, jouer). </li>
+            <li>Prévention des Complications: Cela aide à prévenir la raideur articulaire, les contractures musculaires et la perte d'élasticité des tissus, qui peuvent devenir permanentes si non traitées. </li>
+        </ul>
+
+        <h3>Comment notre module ROM fonctionne-t-il?</h3>
+        <p>Il guide l'utilisateur dans des mouvements qui étirent et mobilisent les articulations, tout en collectant des données précises: </p>
+        <ul>
+            <li>Exercices Ciblés: Plutôt que des gestes complexes pour un jeu, ce module propose des tâches qui sollicitent des mouvements spécifiques des articulations de la main et du poignet (par exemple, étendre complètement les doigts, faire une flexion du poignet).  Ces exercices sont fondamentaux pour améliorer la flexibilité et l'amplitude. </li>
+            <li>Visualisation et Guidage: L'environnement VR affiche des indicateurs (cibles à atteindre, chemins à suivre pour la main virtuelle) pour guider le patient vers l'amplitude maximale.  Une sphère lumineuse, par exemple, pourrait l'inciter à étendre son bras et sa main au maximum pour la toucher avec sa main virtuelle. </li>
+            <li>Retour d'Information Précis: Le système est capable de mesurer l'amplitude réelle atteinte par le patient pour chaque mouvement.  Cette mesure est essentielle.  L'interface utilisateur (via le Module 5) peut afficher un "score" ou un indicateur de pourcentage qui montre au patient à quel point il s'est rapproché de l'amplitude maximale requise ou de son amplitude précédente.  Par exemple, "Vous avez atteint 85% de votre amplitude maximale !"  Ce retour d'information immédiat et précis est crucial pour l'apprentissage moteur et la motivation. </li>
+            <li>Outil d'Évaluation: Le module ROM est explicitement mentionné comme une tâche d'évaluation dans le cadre du système VR-MT.  Cela signifie qu'il ne s'agit pas seulement d'un exercice, mais aussi d'un moyen objectif pour les cliniciens de mesurer les capacités motrices de leurs patients.  Les données enregistrées par le Module d'Enregistrement et d'Analyse (Module 4) pour ce module seraient des mesures précises des angles articulaires, de la distance parcourue par la main ou de la capacité à atteindre des cibles dans l'espace. </li>
+            <li>Intégration de la Thérapie Miroir: Le module ROM peut également être utilisé en conjonction avec le Module de Thérapie Miroir (Module 1).  Par exemple, le patient pourrait utiliser sa main saine pour réaliser une extension complète, et voir le reflet de ce mouvement exécuté par sa main affectée dans l'environnement VR, renforçant l'illusion et stimulant l'imagerie motrice pour améliorer la ROM du côté affecté. </li>
+            <li>Personnalisation via l'Adaptation de la Difficulté: Le Module d'Adaptation de la Difficulté (Module 3) peut ajuster les paramètres des exercices de ROM.  Par exemple, il peut augmenter la distance des cibles, exiger une plus grande précision pour atteindre des zones spécifiques de l'amplitude, ou demander de maintenir la position extrême plus longtemps à mesure que le patient progresse. </li>
+        </ul>
+        <p>En résumé, le Module Range of Motion de notre application fournit un environnement structuré et mesurable pour travailler sur l'extension et la flexibilité des mouvements de la main et du bras.  C'est un composant fondamental pour l'évaluation clinique et l'amélioration fonctionnelle progressive de l'amplitude articulaire chez les jeunes patients. </p></main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 MageMotion: Virtual Rehabilitation Quest. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

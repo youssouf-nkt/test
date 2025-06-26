@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Module 2: Détection et Reconnaissance des Gestes - MageMotion</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            color: #333;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .main-header {
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        /* Banner Styles - Adapted from index.php */
+        .cedric-banner {
+            position: relative;
+            background: #b81c2c;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            flex-direction: column;
+            text-align: center;
+            color: white; /* Added for banner text */
+            font-weight: bold; /* Added for banner text */
+        }
+        .banner-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+            width: 100%;
+        }
+        .logo-wrapper {
+            background-color: #fff;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            padding: 5px 10px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .banner-logo {
+            max-width: 250px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .cedric-banner h1 { /* Adjusted for module pages */
+            color: #fff;
+            font-size: 2.5em; /* Slightly smaller for module titles */
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 2;
+            text-align: center;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px #a00, 0 0 1px #fff;
+            padding: 0;
+            margin-top: 10px; /* Added some margin for the title */
+        }
+        .cedric-banner p { /* Added for module banner description */
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            position: relative; /* Ensure it's above squares */
+            z-index: 2; /* Ensure it's above squares */
+        }
+
+        /* Squares Animation - Copied from index.php */
+        .cedric-banner .squares {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0; top: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .cedric-banner .squares span {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 2px;
+            opacity: 0.7;
+            animation: float 10s linear infinite;
+        }
+        .cedric-banner .squares span:nth-child(1) {
+            width: 38px; height: 38px; left: 10%; top: 30px; animation-delay: 0s;
+        }
+        .cedric-banner .squares span:nth-child(2) {
+            width: 18px; height: 18px; left: 30%; top: 80px; animation-delay: 2s;
+        }
+        .cedric-banner .squares span:nth-child(3) {
+            width: 28px; height: 28px; left: 55%; top: 20px; animation-delay: 4s;
+        }
+        .cedric-banner .squares span:nth-child(4) {
+            width: 14px; height: 14px; left: 70%; top: 60px; animation-delay: 1s;
+        }
+        .cedric-banner .squares span:nth-child(5) {
+            width: 22px; height: 22px; left: 85%; top: 40px; animation-delay: 3s;
+        }
+        @keyframes float {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(25px);}
+        }
+
+        /* Responsive Banner Adjustments */
+        @media (max-width: 900px) {
+            .banner-logo {
+                max-width: 150px;
+            }
+            .cedric-banner h1 {
+                font-size: 2.2em;
+            }
+        }
+        @media (min-width: 769px) {
+            .banner-content {
+                flex-direction: row;
+                justify-content: center;
+                text-align: left;
+                gap: 30px;
+            }
+            .cedric-banner h1 {
+                font-size: 3.2em; /* Larger for desktop */
+                text-align: left;
+            }
+        }
+
+        /* Main Content Styles */
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            line-height: 1.8;
+            color: #444;
+        }
+
+        main h2, main h3 {
+            color: #b81c2c;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        main ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 10px 0;
+        }
+
+        main ul li {
+            margin-bottom: 10px;
+        }
+
+        main p {
+            margin-bottom: 15px;
+        }
+
+        /* Footer Styles - Modified */
+        .main-footer {
+            background: #b81c2c; /* Rouge vif comme la bannière */
+            color: #f7f7f7;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+        }
+        /* Module Navigation Bar */
+        .module-nav {
+            width: 100%;
+            background: #444; /* Darker background for module nav */
+            color: #fff;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .module-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Space between icon and text */
+        }
+        .module-nav a:hover,
+        .module-nav a:focus {
+            background: #b81c2c;
+            color: #fff;
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        .module-nav a::before {
+            content: '←'; /* Unicode left arrow */
+            font-size: 1.2em;
+        }
+                /* Styles pour les images responsives et la galerie */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap; /* Permet aux images de passer à la ligne sur petits écrans */
+    gap: 20px; /* Espace entre les images */
+    justify-content: center; /* Centre les images horizontalement */
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.image-item {
+    flex: 1 1 calc(50% - 20px); /* Par défaut, deux images par ligne, moins le gap */
+    max-width: calc(50% - 20px); /* Empêche les images de prendre plus de 50% */
+    box-sizing: border-box; /* Inclut le padding et border dans la largeur */
+    text-align: left; /* Centre la légende */
+    background: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Assure que l'image ne dépasse pas les bords arrondis */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.image-item:hover {
+    transform: translateY(-5px); /* Petit effet au survol */
+}
+
+.image-item img {
+    max-width: 100%; /* Rend l'image fluide et ne dépasse pas son conteneur */
+    height: auto; /* Maintient le ratio d'aspect de l'image */
+    display: block; /* Supprime l'espace sous l'image */
+    border-bottom: 1px solid #eee; /* Petite séparation avec la légende */
+    margin-bottom: 10px;
+}
+
+.image-item figcaption {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Media Queries pour la responsivité */
+@media (max-width: 768px) {
+    .image-item {
+        flex: 1 1 calc(100% - 20px); /* Une image par ligne sur les écrans de taille moyenne */
+        max-width: calc(100% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .image-item {
+        flex: 1 1 100%; /* Une image par ligne sur les très petits écrans, sans gap */
+        max-width: 100%;
+        margin: 0 0 20px 0; /* Ajoute un espacement en bas si pas de gap */
+    }
+    .image-gallery {
+        gap: 0; /* Pas de gap si les éléments prennent toute la largeur */
+    }
+}
+main h2, main h3 {
+    color: #b81c2c;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    text-align: center; /* Ajoutez cette ligne pour aligner le texte à gauche */
+}
+/* Styles pour le conteneur vidéo et la vidéo elle-même */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* C'est le ratio 16:9 (9 / 16 = 0.5625). Changez si votre vidéo a un autre ratio (ex: 75% pour 4:3) */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%; /* S'assure que le conteneur ne dépasse pas la largeur du parent */
+    background: #000; /* Fond noir pendant le chargement */
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px; /* Bords arrondis */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Petite ombre portée */
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Supprime toute bordure par défaut */
+}
+
+.video-caption {
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+    margin-top: 10px;
+}
+
+/* Vous pouvez ajouter des media queries si vous voulez des comportements spécifiques sur mobile,
+   bien que le code ci-dessus soit déjà responsive */
+/*
+@media (max-width: 768px) {
+    .video-container {
+        padding-bottom: 75%; // Exemple pour un ratio 4:3 sur mobile si nécessaire, mais 16:9 est souvent suffisant
+    }
+}
+*/
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="cedric-banner">
+            <div class="banner-content">
+                <div class="logo-wrapper">
+                    <img src="Logo1.png" alt="Logo de l'institut Le Cnam Cedric" class="banner-logo" />
+                </div>
+                <div>
+                    <h1>Module 2: Détection et Reconnaissance des Gestes</h1>
+                    <p>Comprendre comment "MageMotion" interprète les mouvements de l'utilisateur.</p>
+                </div>
+            </div>
+            <div class="squares" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <nav class="module-nav" aria-label="Navigation secondaire de module">
+    <a href="index.php#modules" aria-label="Retourner à la page principale et à la section Modules">Retour à la page principale</a>
+</nav>
+    </header>
+
+    <main>
+        <h1>Module 2: Détection et Reconnaissance des Gestes</h1>
+        <p>Le deuxième pilier de notre projet, après l'immersion, est la capacité de notre application à "comprendre" ce que le patient fait avec ses mains.  C'est le Module de Détection et Reconnaissance des Gestes. Sans lui, l'interaction dans le monde virtuel ne serait pas possible. </p>
+
+        <h3>Qu'est-ce que la Détection et la Reconnaissance de Gestes ?</h3>
+        <p>C'est simple: c'est la capacité de notre système (l'application VR) à capter les mouvements de vos mains et à les identifier comme des actions spécifiques, des "gestes".  Quand vous saluez de la main, serrez le poing ou pointez du doigt, vous faites un geste.  Notre système doit pouvoir les reconnaître. </p>
+
+        <h3>Comment ça marche concrètement?</h3>
+        <p>Nous utilisons la technologie de suivi des mains (Hand Tracking), présente dans des casques de réalité virtuelle comme le Meta Quest 3, ou via des capteurs externes comme le Leap Motion Controller.  Ces technologies utilisent des caméras pour "voir" vos mains en temps réel et recréer leurs mouvements dans l'univers virtuel. <br>
+        Une fois ces mouvements capturés, notre module de détection utilise plusieurs "outils" internes: </p>
+        <ul>
+            <li><strong>API d'Événements de Suivi des Mains Unity XR:</strong>
+                <p>C'est quoi ? C'est comme le "sens du toucher" du système.  C'est un ensemble d'instructions qui permet au programme de recevoir des signaux (des "événements") dès que votre main bouge ou change d'état. <br>
+                À quoi ça sert? C'est la base de tout. Il détecte si vos mains sont présentes, si c'est la gauche ou la droite, et si elles sont bien "suivies" par le casque. </p></li>
+            <li><strong>Forme de la Main XR (XR Hand Shape) et Position XR (XR Pose):</strong>
+                <p>C'est quoi ? Ce sont des "yeux" pour identifier des configurations spécifiques de la main.  XR Hand Shape: Reconnaît la forme générale de la main (ouverte, fermée).  XR Pose: Identifie une posture complète (position et orientation de chaque doigt et de la paume). <br>
+                À quoi ça sert ? Ils sont parfaits pour détecter des gestes statiques, ceux où la main prend une pose et la maintient un court instant (par exemple, un "pouce levé"). </p></li>
+            <li><strong>Geste Statique de la Main (Static Hand Gesture):</strong>
+                <p>C'est quoi ? Un outil spécifique pour ces gestes qui ne demandent pas de mouvement continu, mais une forme de main maintenue. <br>
+                À quoi ça sert? Il est configuré pour reconnaître des formes de main que nous lui avons enseignées et déclencher une action dès que cette forme est détectée. </p></li>
+            <li><strong>Détecteur de Geste Complexe (Complex Gesture Detector):</strong>
+                <p>C'est quoi ? C'est notre "chef d'orchestre" pour les mouvements les plus élaborés.  Il ne se contente pas d'une simple pose, il détecte des séquences de mouvements ou de formes de main dans un ordre précis. <br>
+                À quoi ça sert ? C'est ce qui permet au "magicien" de lancer des sorts!  Imaginez qu'un sort nécessite de lever la main, puis de fermer le poing, puis de l'étendre rapidement.  Ce détecteur gère ces étapes : </p>
+                <ul>
+                    <li>Étapes du Geste: Le sort est décomposé en une suite d'étapes précises. </li>
+                    <li>Nombre Maximum d'Étapes: Une limite est fixée pour s'assurer que le geste est fait comme il faut, sans mouvements parasites. </li>
+                    <li>Temps Maximum de Maintien: Il y a un délai pour l'ensemble du geste.  Si c'est trop lent, le sort ne part pas, ce qui pousse le patient à travailler la fluidité. </li>
+                    <li>Déclenchement d'Événements: Si le geste est parfait, un "signal" (un "événement") est envoyé au jeu qui déclenche l'action (le sort part !).  Sinon, un autre signal indique l'échec. </li>
+                </ul>
+            </li>
+        </ul>
+        <main>
+    <h2>Vidéo de démonstration du Module</h2>
+
+    <div class="video-container">
+        <video controls>
+            <source src="video2.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Vidéo 1: Une démonstration visuelle de notre module.</p>
+    </div>
+
+    </main>
+
+        <h3>Son lien vital avec la Rééducation :</h3>
+        <p>La précision de la détection de gestes est fondamentale.  Chaque geste que le patient apprend à faire dans le jeu correspond à un mouvement thérapeutique spécifique.  En "lisant" le succès ou l'échec de ces gestes, ce module fournit des données précieuses pour suivre la progression du patient et ajuster la difficulté des exercices.  C'est la passerelle directe entre les efforts physiques du patient et l'interaction ludique et thérapeutique. </p></main>
+    <footer class="main-footer">
+        <p>&copy; 2024 MageMotion: Virtual Rehabilitation Quest. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
