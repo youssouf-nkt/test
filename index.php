@@ -646,7 +646,6 @@ session_start();
         .modal-close:focus {
             color: #bbb;
             text-decoration: none;
-            outline-color: #007bff;
         }
         #caption {
             margin: auto;
@@ -960,7 +959,6 @@ session_start();
                     top: 0;
                     width: auto;
                     height: auto;
-                    outline: 2px solid #007bff;
                     outline-offset: 2px;
                 }
             `;
